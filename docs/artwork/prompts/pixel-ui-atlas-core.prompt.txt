@@ -1,0 +1,6 @@
+Merged atlas revision: 1448×1086 RGBA, 4 columns × 3 rows, 362px square cells.
+Row 1: clean five-point yellow star (no plus sparkles), left, trash, right.
+Row 2: feather, X, flag, reset.
+Row 3: pause, play, share, empty.
+Edited with imagegen using the original atlas and star-clean references. Preserve the warm orange/gold pixel-art style and transparent alpha.
+All runtime icons use this one file; there is no separate star PNG.

@@ -1,0 +1,19 @@
+{
+  "name": "picross",
+  "version": "1.0.0",
+  "private": true,
+  "description": "移动优先的像素数织游戏",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/build.cjs",
+    "dev": "node scripts/build.cjs --watch",
+    "check": "node scripts/check-project.cjs",
+    "test": "node --test tests/*.test.cjs",
+    "start": "npm run build && python3 -m http.server 4173 --bind 127.0.0.1 --directory dist"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}

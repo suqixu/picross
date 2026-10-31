@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f8fb">
+  <title>Picross</title>
+  <link rel="preload" as="image" href="assets/images/backgrounds/pixel-sky.png">
+  <!-- APP_STYLES -->
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-status" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6.5v7"/><circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/></symbol>
+      <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></symbol>
+      <symbol id="i-music-off" viewBox="0 0 24 24"><path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/><path d="M3 3l18 18"/></symbol>
+      <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12"/></symbol>
+      <symbol id="i-sound-off" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9.5l4 5M21 9.5l-4 5"/></symbol>
+      <symbol id="i-feather" viewBox="60.524 36.024 321.951 321.951"><image href="assets/images/icons/pixel-ui-atlas-core.png" x="0" y="-362" width="1448" height="1086"/></symbol>
+      <symbol id="i-import" viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 20h14"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></symbol>
+      <symbol id="i-star" viewBox="53.305 59.805 324.390 324.390"><image href="assets/images/icons/pixel-ui-atlas-core.png" x="0" y="0" width="1448" height="1086"/></symbol>
+      <symbol id="i-trash" viewBox="21.293 68.793 313.415 313.415"><image href="assets/images/icons/pixel-ui-atlas-core.png" x="-724" y="0" width="1448" height="1086"/></symbol>
+      <symbol id="i-share" viewBox="13.756 -7.744 330.488 330.488"><image href="assets/images/icons/pixel-ui-atlas-core.png" x="-724" y="-724" width="1448" height="1086"/></symbol>
+      <symbol id="i-play" viewBox="56.476 18.976 278.049 278.049"><image href="assets/images/icons/pixel-ui-atlas-core.png" x="-362" y="-724" width="1448" height="1086"/></symbol>
+      <symbol id="i-right" viewBox="15.537 84.537 282.927 282.927"><image href="assets/images/icons/pixel-ui-atlas-core.png" x="-1086" y="0" width="1448" height="1086"/></symbol>
+      <symbol id="i-left" viewBox="49.817 82.317 285.366 285.366"><image href="assets/images/icons/pixel-ui-atlas-core.png" x="-362" y="0" width="1448" height="1086"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+      <symbol id="i-cross" viewBox="49.098 50.098 287.805 287.805"><image href="assets/images/icons/pixel-ui-atlas-core.png" x="-362" y="-362" width="1448" height="1086"/></symbol>
+      <symbol id="i-pause" viewBox="65.488 17.988 289.024 289.024"><image href="assets/images/icons/pixel-ui-atlas-core.png" x="0" y="-724" width="1448" height="1086"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 018 0v3M12 14v3"/></symbol>
+      <symbol id="i-reset" viewBox="-10.622 21.378 340.244 340.244"><image href="assets/images/icons/pixel-ui-atlas-core.png" x="-1086" y="-362" width="1448" height="1086"/></symbol>
+      <symbol id="i-flag" viewBox="29.817 21.817 335.366 335.366"><image href="assets/images/icons/pixel-ui-atlas-core.png" x="-724" y="-362" width="1448" height="1086"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="phone-shell" id="phone-shell">
+
+  <main>
+    <div id="play-topbar" class="play-topbar hidden">
+    <div id="screen-controls" class="screen-controls hidden">
+      <button id="btn-back" class="ib" aria-label="返回"><svg><use href="#i-left"/></svg></button>
+      <h1 id="top-title" class="sr-only">Picross</h1>
+      <button id="btn-tool-cycle" class="ib hidden" aria-label="当前工具：涂色，点击切换为打叉" data-tool="fill"><svg><use href="#i-feather"/></svg></button>
+      <button id="btn-pause" class="ib hidden" aria-label="暂停" aria-pressed="false"><svg><use href="#i-pause"/></svg></button>
+      <button id="btn-reset" class="ib hidden" aria-label="重新开始"><svg><use href="#i-reset"/></svg></button>
+        <button id="btn-editor-save" class="ib primary hidden" aria-label="保存并试玩"><svg><use href="#i-play"/></svg></button>
+      <div id="editor-status" class="estatus hidden" role="status" aria-live="polite"><svg aria-hidden="true"><use href="#i-status"/></svg><span></span></div>
+    </div>
+      <div id="round-stats" class="round-stats hidden">
+        <div id="lives" class="lives hidden"></div>
+        <div class="round-times"><time id="round-time" aria-label="本局用时">00:00</time></div>
+      </div>
+    </div>
+    <section id="view-home" class="view home">
+      <div class="home-brand"><img class="home-mascot" src="assets/images/illustrations/pixel-mascot.png" alt="" fetchpriority="high" width="1536" height="1024" decoding="async"><span>PICROSS</span></div>
+      <div class="home-menu">
+        <div class="home-actions">
+          <button id="btn-home-start" class="hb hb-main">开始游戏</button>
+          <button id="btn-home-continue" class="hb">继续游戏</button>
+          <button id="btn-home-gallery" class="hb">查看画廊</button>
+          <button id="btn-settings" class="hb">游戏帮助</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-gallery" class="view puzzle-collection hidden">
+      <div class="collection-nav">
+        <button id="btn-gallery-back" class="ib" aria-label="返回首页"><svg><use href="#i-left"/></svg></button>
+        <div id="gallery-tabs" class="size-tabs" role="tablist" aria-label="画廊难度"></div>
+      </div>
+      <div class="collection-panel">
+        <div class="gallery-summary"><span id="gallery-count" aria-label="当前难度已完成数与总数" aria-live="polite"></span></div>
+        <div class="puzzle-page">
+        <div id="gallery-list" class="gallery-grid puzzle-grid" role="tabpanel" aria-label="画廊作品"></div>
+        <div class="pagination"><button id="gallery-prev" class="ib" aria-label="画廊上一页"><svg><use href="#i-left"/></svg></button><div class="pagination-center"><div id="gallery-dots" class="page-dots"></div><span id="gallery-page" class="page-number sr-only" aria-live="polite"></span></div><button id="gallery-next" class="ib" aria-label="画廊下一页"><svg><use href="#i-right"/></svg></button></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-menu" class="view puzzle-collection hidden">
+      <div class="collection-nav">
+        <button id="btn-menu-back" class="ib" aria-label="返回首页"><svg><use href="#i-left"/></svg></button>
+        <div id="menu-tabs" class="size-tabs" role="tablist" aria-label="谜题难度"></div>
+      </div>
+      <div class="collection-panel">
+        <div id="custom-actions" class="custom-actions hidden"><button id="btn-import-toggle" class="ib sm" aria-label="导入谜题"><svg><use href="#i-import"/></svg></button><button id="btn-new" class="ib sm primary" aria-label="新建谜题"><svg><use href="#i-plus"/></svg></button></div>
+        <div id="import-row" class="import-row hidden"><input id="import-code" type="text" placeholder="PICROSS1:..." aria-label="谜题分享码" autocomplete="off" autocapitalize="off"><button id="btn-import" class="ib primary" aria-label="确认导入"><svg><use href="#i-check"/></svg></button></div>
+        <p id="import-msg" class="msg" role="status"></p>
+        <div class="collection-summary" aria-live="polite">
+          <span id="menu-stars" class="collection-stars" aria-label="已获得0颗星星"><svg aria-hidden="true"><use href="#i-star"/></svg><span id="menu-stars-count" aria-hidden="true">0</span></span>
+        </div>
+        <div class="puzzle-page">
+          <div id="level-list" class="card-list puzzle-grid" role="tabpanel" aria-label="内置谜题"></div>
+          <div id="custom-list" class="card-list puzzle-grid hidden" role="tabpanel" aria-label="自制谜题"></div>
+          <div class="pagination"><button id="menu-prev" class="ib" aria-label="谜题上一页"><svg><use href="#i-left"/></svg></button><div class="pagination-center"><div id="menu-dots" class="page-dots"></div><span id="menu-page" class="page-number sr-only" aria-live="polite"></span></div><button id="menu-next" class="ib" aria-label="谜题下一页"><svg><use href="#i-right"/></svg></button></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-play" class="view hidden">
+      <div id="editor-bar" class="editor-bar hidden">
+        <input id="editor-name" type="text" placeholder="名称" value="我的谜题" aria-label="谜题名称" aria-description="最多8个字符" title="最多8个字符">
+        <div id="editor-size" class="seg">
+          <button data-size="5">5</button>
+          <button data-size="10">10</button>
+          <button data-size="15">15</button>
+        </div>
+        <button id="btn-editor-clear" class="ib hidden" aria-label="清空"><svg><use href="#i-trash"/></svg></button>
+        <button id="btn-editor-share" class="ib hidden" aria-label="分享"><svg><use href="#i-share"/></svg></button>
+      </div>
+
+      <div id="tutorial-box" class="tutorial-box hidden">
+        <div class="tutorial-head">
+          <h3 id="tut-title"></h3>
+          <div id="tut-dots" class="tut-dots" aria-hidden="true"></div>
+        </div>
+        <p id="tut-text"></p>
+        <div class="tut-actions">
+          <button id="tut-prev" class="ib" aria-label="上一步"><svg><use href="#i-left"/></svg></button>
+          <button id="tut-next" class="ib primary" aria-label="下一步"><svg><use href="#i-right"/></svg></button>
+        </div>
+      </div>
+
+      <div class="board-stage"><div class="board-wrap">
+        <div id="board" class="board"></div>
+        <div id="board-results" class="board-results">
+        <div id="win" class="win hidden">
+          <div class="win-summary">
+            <span id="win-name" class="win-name">完成！</span>
+            <div class="win-rating">
+              <div id="win-stars" class="win-stars" role="img" aria-label="星级"></div>
+              <time id="win-time" aria-label="完成用时"></time>
+              <button id="btn-win-next" class="ib primary" aria-label="下一关"><svg><use href="#i-right"/></svg></button>
+            </div>
+          </div>
+        </div>
+        <div id="fail" class="win game-over hidden" role="status" aria-labelledby="fail-title" aria-describedby="fail-text">
+          <div class="win-summary">
+            <h2 id="fail-title">GAME OVER</h2>
+          </div>
+          <p id="fail-text" class="sr-only">失误次数用完了</p>
+        </div>
+        </div>
+      </div></div>
+
+    </section>
+  </main>
+
+  <div id="settings" class="viewer hidden" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+    <div class="settings-card">
+      <div class="settings-head">
+        <h2 id="settings-title" class="sr-only">游戏帮助</h2>
+        <button id="btn-settings-close" class="ib sm" aria-label="关闭"><svg><use href="#i-close"/></svg></button>
+      </div>
+      <div class="volume-setting">
+        <button id="set-music" class="volume-toggle" role="switch" aria-label="背景音乐开关" aria-checked="true"><svg aria-hidden="true"><use href="#i-music"/></svg></button>
+        <input id="volume-music" type="range" min="0" max="100" step="1" value="40" aria-label="背景音乐音量">
+      </div>
+      <div class="volume-setting">
+        <button id="set-sfx" class="volume-toggle" role="switch" aria-label="音效开关" aria-checked="true"><svg aria-hidden="true"><use href="#i-sound"/></svg></button>
+        <input id="volume-sfx" type="range" min="0" max="100" step="1" value="55" aria-label="音效音量">
+      </div>
+      <button id="set-tutorial" class="set-row">游戏教程</button>
+      <button id="set-about" class="set-row">关于游戏</button>
+      <button id="set-clear" class="set-row danger">清除存档</button>
+    </div>
+  </div>
+
+  <div id="about-dialog" class="viewer hidden" role="dialog" aria-modal="true" aria-labelledby="about-dialog-title">
+    <div class="settings-card about-dialog-card">
+      <div class="about-dialog-head">
+        <h2 id="about-dialog-title" class="sr-only">关于游戏</h2>
+        <button id="btn-about-close" class="ib sm" aria-label="关闭关于游戏"><svg><use href="#i-close"/></svg></button>
+      </div>
+      <div class="about-content">
+        <img class="about-seal" src="assets/images/branding/zzy-seal.webp" alt="张在元印章" width="1254" height="1254" decoding="async" loading="lazy">
+      </div>
+    </div>
+  </div>
+
+  <div id="viewer" class="viewer hidden" role="dialog" aria-modal="true" aria-labelledby="viewer-name">
+    <div class="viewer-card">
+      <div class="viewer-head">
+        <h2 id="viewer-name" class="viewer-name"></h2>
+        <button id="btn-viewer-close" class="ib sm" aria-label="关闭作品"><svg><use href="#i-close"/></svg></button>
+      </div>
+      <div id="viewer-stage" class="viewer-stage"></div>
+    </div>
+  </div>
+
+  <div id="confirm-dialog" class="viewer hidden" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-message">
+    <div class="confirm-card">
+      <div class="confirm-head"><h2 id="confirm-title">确认删除</h2></div>
+      <p id="confirm-message"></p>
+      <div class="confirm-actions">
+        <button id="confirm-cancel" class="confirm-action">取消</button>
+        <button id="confirm-accept" class="confirm-action confirm-primary">删除</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="fx" class="fx" aria-hidden="true"></div>
+
+  </div>
+
+  <!-- APP_SCRIPT -->
+</body>
+</html>

@@ -1,0 +1,32 @@
+# 构建依赖与缓存
+node_modules/
+.npm/
+.cache/
+
+# 构建结果与生成的预览入口
+/dist/
+/build/
+/index.html
+*.tsbuildinfo
+
+# 临时目录与中间文件
+/tmp/
+/temp/
+/.tmp/
+/.temp/
+*.tmp
+*.temp
+
+# 测试报告与运行日志
+/coverage/
+/.nyc_output/
+*.log
+npm-debug.log*
+
+# Python、系统与编辑器临时文件
+__pycache__/
+*.py[cod]
+.DS_Store
+*.swp
+*.swo
+*~
