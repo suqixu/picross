@@ -24,7 +24,7 @@ npm run dev
 python3 -m http.server 4173 --bind 127.0.0.1
 ```
 
-开发监听会自动重建未压缩脚本，刷新浏览器即可查看。发布构建使用 `npm run build`，生成可独立部署的 `dist/`。页面只加载一个 `game.js` 和一个 `game.css`，资源引用带内容哈希。
+开发监听会自动重建未压缩脚本，刷新浏览器即可查看。发布构建使用 `npm run build`，生成可独立部署的 `dist/`。游戏代码只加载一个 `game.js` 和一个 `game.css`，资源引用带内容哈希；页面另按配置加载Cloudflare Web Analytics统计脚本。
 
 ## 目录
 

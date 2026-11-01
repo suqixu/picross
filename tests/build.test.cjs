@@ -16,10 +16,11 @@ function output() {
 }
 process.on('exit', () => { if (temporary) fs.rmSync(temporary, { recursive: true, force: true }); });
 
-test('发布页面只加载一个压缩JS和一个压缩CSS，源文件不逐个请求', () => {
+test('游戏代码只加载一个压缩JS和一个压缩CSS，源文件不逐个请求', () => {
   const built = output();
   const html = fs.readFileSync(path.join(built.outdir, 'index.html'), 'utf8');
-  assert.equal([...html.matchAll(/<script\b[^>]*\bsrc=/g)].length, 1);
+  const scriptUrls = [...html.matchAll(/<script\b[^>]*\bsrc=(["'])(.*?)\1/g)].map((match) => match[2]);
+  assert.equal(scriptUrls.filter((url) => !/^https?:\/\//.test(url)).length, 1);
   assert.equal([...html.matchAll(/<link\b[^>]*rel="stylesheet"/g)].length, 1);
   assert.ok(built.jsBytes < built.rawJsBytes * 0.9, 'JS应实际压缩');
   assert.ok(built.cssBytes < built.rawCssBytes * 0.9, 'CSS应实际压缩');
@@ -31,7 +32,8 @@ test('发布包相对资源可在GitHub仓库子路径访问，预加载背景�
   const built = output();
   const html = fs.readFileSync(path.join(built.outdir, 'index.html'), 'utf8');
   const css = fs.readFileSync(path.join(built.outdir, 'game.css'), 'utf8');
-  const refs = [...html.matchAll(/(?:src|href)="([^"#][^"]*)"/g)].map((m) => m[1]);
+  const refs = [...html.matchAll(/(?:src|href)=(["'])([^"'#][^"']*)\1/g)].map((m) => m[2])
+    .filter((url) => !/^https?:\/\//.test(url));
   const urls = [...css.matchAll(/url\(["']?([^\s)'\"]+)/g)].map((m) => m[1]);
   for (const url of [...refs, ...urls]) {
     assert.equal(url.startsWith('/'), false, url + ' 不应依赖域名根路径');
@@ -60,4 +62,16 @@ test('构建自动收录音乐目录，并随MP3内容变化更新播放列表�
   const second = build({ root, writePreview: false });
   const after = fs.readFileSync(path.join(second.outdir, 'game.js'), 'utf8');
   assert.notEqual(before, after, '更新音乐应刷新运行时URL内容版本');
+});
+
+
+test('发布页面保留用户提供的Cloudflare统计脚本、模块类型和token', () => {
+  const built = output();
+  const html = fs.readFileSync(path.join(built.outdir, 'index.html'), 'utf8');
+  const scripts = [...html.matchAll(/<script\b([^]*?)<\/script>/g)].map((match) => match[0]);
+  const beacon = scripts.filter((script) => script.includes('https://static.cloudflareinsights.com/beacon.min.js'));
+  assert.equal(beacon.length, 1, '应只包含一份Cloudflare统计代码');
+  assert.match(beacon[0], /type=['"]module['"]/);
+  const config = beacon[0].match(/data-cf-beacon=(['"])(.*?)\1/);
+  assert.deepEqual(JSON.parse(config[2]), { token: 'e3400f6ecad742b3b84b3168c177afac' });
 });
